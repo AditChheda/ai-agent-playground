@@ -1,16 +1,19 @@
 from pypdf import PdfReader
 
+# LinkedIn profile exported to PDF sits alongside this script; extract its raw text as context.
 reader = PdfReader("linkedin.pdf")
 
 linkedin = ""
 for page in reader.pages:
     text = page.extract_text()
-    if text:
+    if text:  # extract_text() can return None for image-only or empty pages
         linkedin += text
 
+# Hand-written bio/summary used to ground the persona alongside the raw LinkedIn text.
 with open("summary.txt", "r", encoding="utf-8") as f:
     summary = f.read()
 
+# Persona + knowledge base for the digital-twin chat agent, built from the summary and LinkedIn text above.
 SYSTEM_PROMPT = f"""
 
 # Your role

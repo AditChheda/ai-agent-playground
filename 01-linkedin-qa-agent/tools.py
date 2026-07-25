@@ -1,12 +1,15 @@
 import json
 
+# Stub: replace with real persistence/notification (e.g. email, CRM) once wired up.
 def record_user_details(email, name="Name not provided", notes="not provided"):
     return "OK"
 
 
+# Stub: replace with real logging/persistence once wired up.
 def record_unknown_question(question):
     return "OK"
 
+# OpenAI function-calling tool schema (passed to the chat completion request).
 record_user_details_json = {
     "name": "record_user_details",
     "description": "Use this tool to record that a user is interested in being in touch and provided an email address",
@@ -43,11 +46,14 @@ tools = [
     {"type": "function", "function": record_unknown_question_json},
 ]
 
+# Maps schema "name" back to the actual callable for dispatch in handle_tool_calls.
 tool_map = {
     "record_user_details": record_user_details,
     "record_unknown_question": record_unknown_question,
 }
 
+# tool_calls is the list from an OpenAI chat completion response
+# (each item exposes .function.name/.function.arguments/.id as attributes, not dict keys).
 def handle_tool_calls(tool_calls):
     results = []
     for tool_call in tool_calls:
@@ -57,6 +63,7 @@ def handle_tool_calls(tool_calls):
         tool = tool_map.get(tool_name)
         result = tool(**arguments) if tool else "Unknown tool: " + tool_name
         results.append(
+            # "tool" role + tool_call_id is how OpenAI matches this result back to the call.
             {"role": "tool", "content": json.dumps(result), "tool_call_id": tool_call.id}
         )
     return results
