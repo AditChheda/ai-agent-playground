@@ -1,0 +1,5 @@
+Adit Chheda is an AI and Data Engineer with over 3 years of experience building machine 
+learning models, data pipelines, analytics dashboards, and AI-powered applications across 
+the MusicTech, e-commerce, and fintech industries. He recently joined Brilliant Infotech 
+as a Jr AI & Data Engineer after working as a Data Scientist at tapyoca, where he combined 
+data science, data engineering, and product analytics to deliver measurable business impact.
